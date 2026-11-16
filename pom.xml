@@ -13,6 +13,15 @@
     <properties>
         <maven.compiler.release>17</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!--
+            JDK 18+ 默认 file.encoding=UTF-8，但 stdout/stderr 的编码仍跟随系统代码页。
+            Windows 中文系统 OEMCP=936(GBK)，测试用 System.out 打印中文时会被编成 GBK，
+            而控制台按 UTF-8 解码 => 乱码。
+            下面两个变量会传给 surefire 派生的 JVM，让测试输出统一用 UTF-8。
+        -->
+        <argLine>-Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8 -Dfile.encoding=UTF-8</argLine>
     </properties>
 
     <dependencies>
@@ -30,6 +39,27 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
+            </plugin>
+
+            <!-- 锁定编译器版本，避免不同 Maven 版本拉取不同插件导致构建结果不一致 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+
+            <!--
+                exec:java 直接运行控制台版：
+                  mvn -q compile exec:java
+                显式指定 source/target（等价于 release=17），Windows 中文系统下按 UTF-8 运行。
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <mainClass>com.example.excise.Main</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
