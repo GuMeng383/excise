@@ -2,9 +2,11 @@ import com.example.excise.Room;
 import com.example.excise.RoomService;
 import org.junit.jupiter.api.Test;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class RoomServiceTest {
     @Test
@@ -32,5 +34,21 @@ class RoomServiceTest {
         Room room = roomService.createRoom(input);
         assertEquals("测试房",room.getRoomName());
         assertEquals(3,room.getMaxPlayerCount());
+    }
+
+    @Test
+    void inputIsEmptyCreatRoomShouldException(){
+        Scanner input = new Scanner("");
+        RoomService roomService = new RoomService();
+        assertThrows(NoSuchElementException.class,
+                () -> roomService.createRoom(input));
+    }
+
+    @Test
+    void noPlayerCount(){
+        Scanner input = new Scanner("测试房间");
+        RoomService roomService = new RoomService();
+        assertThrows(NoSuchElementException.class,
+                () ->  roomService.createRoom(input));
     }
 }

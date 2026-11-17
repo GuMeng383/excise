@@ -1,5 +1,6 @@
 package com.example.excise;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class RoomService {
@@ -13,12 +14,17 @@ public class RoomService {
     private String readRoomName(Scanner input){
         while(true){
             System.out.println("请创建房间名称:");
-            String name = input.nextLine();
-            if(name == null || name.isBlank()){
-                System.out.println("房间创建失败：房间名称不能为空");
-                continue;
+            if(input.hasNextLine()){
+                String name = input.nextLine();
+                if(name == null || name.isBlank()){
+                    System.out.println("房间创建失败：房间名称不能为空");
+                    continue;
+                }
+                return name;
             }
-            return name;
+            else{
+                throw new NoSuchElementException("没有更多输入，无法创建房间");
+            }
         }
     }
 
