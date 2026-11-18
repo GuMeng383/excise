@@ -29,18 +29,19 @@ class GameServiceTest {
         Player playerC = new NormalPlayer("小丽", Role.UNDERCOVER, 100, 3);
 
         Room room = new Room("测试房间", 3);
-        room.addPlayer(playerA);
-        room.addPlayer(playerB);
-        room.addPlayer(playerC);
 
         Map<Player, Integer> votes = new HashMap<>();
 
+        Scanner input = new Scanner("我不是卧底\n我也不是卧底\n我是卧底\n3\n3\n1");
+        ConsoleView view = new ScannerConsoleView(input, System.out);
+
+        room.addPlayer(playerA);
+        room.addPlayer(playerB);
+        room.addPlayer(playerC);
         room.allPlayersReady();
         room.initVotes(votes);
         room.startGame();
 
-        Scanner input = new Scanner("我不是卧底\n我也不是卧底\n我是卧底\n3\n3\n1");
-        ConsoleView view = new ScannerConsoleView(input, System.out);
         GameService gameService = new GameService(new GameResultService(view),view);
         gameService.runGame(room,votes);
 
@@ -80,6 +81,11 @@ class GameServiceTest {
         Player playerC = new NormalPlayer("小丽", Role.UNDERCOVER, 100, 3);
 
         Room room = new Room("测试房间", 3);
+        Scanner input = new Scanner("我不是卧底\n我也不是卧底\n我是卧底\n3\n3\n1");
+
+        RecordingGameResultHandler handler = new RecordingGameResultHandler();
+        ConsoleView view = new ScannerConsoleView(input, System.out);
+
         room.addPlayer(playerA);
         room.addPlayer(playerB);
         room.addPlayer(playerC);
@@ -90,10 +96,6 @@ class GameServiceTest {
         room.initVotes(votes);
         room.startGame();
 
-        Scanner input = new Scanner("我不是卧底\n我也不是卧底\n我是卧底\n3\n3\n1");
-
-        RecordingGameResultHandler handler = new RecordingGameResultHandler();
-        ConsoleView view = new ScannerConsoleView(input, System.out);
         GameService gameService = new GameService(handler,view);
         gameService.runGame(room,votes);
 

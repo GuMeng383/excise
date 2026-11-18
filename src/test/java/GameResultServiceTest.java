@@ -19,6 +19,9 @@ class GameResultServiceTest {
 
     @BeforeEach
     void setUp() {
+        Scanner input = new Scanner("");
+        view = new ScannerConsoleView(input,System.out);
+
         p1 = new NormalPlayer("p1",Role.CIVILIAN,100,1);
         p2 = new NormalPlayer("p2",Role.CIVILIAN,100,2);
         p3 = new NormalPlayer("p3",Role.UNDERCOVER,100,3);
@@ -71,14 +74,14 @@ class GameResultServiceTest {
         p2 = new NormalPlayer("p2",Role.CIVILIAN,100,2);
         p3 = new NormalPlayer("p3",Role.UNDERCOVER,100,3);
         Player p4 = new NormalPlayer("p4",Role.CIVILIAN,100,4);
+        Scanner input = new Scanner("");
+        ConsoleView view = new ScannerConsoleView(input,System.out);
         room2.addPlayer(p1);
         room2.addPlayer(p2);
         room2.addPlayer(p3);
         room2.addPlayer(p4);
 
         Map<Player,Integer> votes2 = new HashMap<>();
-        Scanner input = new Scanner("");
-        ConsoleView view = new ScannerConsoleView(input,System.out);
 
         room2.initVotes(votes2);
         room2.allPlayersReady();

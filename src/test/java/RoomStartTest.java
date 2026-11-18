@@ -1,13 +1,21 @@
-import com.example.excise.NormalPlayer;
-import com.example.excise.Player;
-import com.example.excise.Role;
-import com.example.excise.Room;
+import com.example.excise.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.PrintStream;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RoomStartTest {
+    private ConsoleView view;
+    @BeforeEach
+    void setUp(){
+        Scanner input = new Scanner("");
+        PrintStream out = System.out;
+        view = new ScannerConsoleView(input,out);
+    }
 
     @Test
     void shouldStartWhenAllRulesAreSatisfied() {

@@ -2,9 +2,11 @@ import com.example.excise.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,6 +17,7 @@ class VoteTest {
     private Player playerC;
     private Room room;
     private VotingService votingService;
+    private ConsoleView view;
 
     @BeforeEach
     void setUp() {
@@ -25,6 +28,10 @@ class VoteTest {
         playerC = new NormalPlayer("C", Role.UNDERCOVER, 100, 3);
 
         votingService = new VotingService();
+
+        Scanner input = new Scanner("");
+        PrintStream out = System.out;
+        view = new ScannerConsoleView(input,out);
 
         room = new Room("测试房", 3);
         room.addPlayer(playerA);

@@ -44,25 +44,21 @@ public class Room {
         this.status = status;
     }
 
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         if(player == null){
-            System.out.print("玩家不存在");
-            return;
+            return false;
         }
         if(!status.isWaiting()){
-            System.out.print("游戏已经开始，无法加入房间");
-            return;
+            return false;
         }
         if (players.size() >= maxPlayer) {
-            System.out.print("房间人数已满" + player.getName()+ "无法加入房间");
-            return;
+            return false;
         }
         if(findPlayer(player.getID()) != null){
-            System.out.print("玩家ID已存在，无法加入房间");
-            return;
+            return false;
         }
         players.add(player);
-        System.out.print(player.getName() + "已加入房间");
+        return true;
     }
 
     public void allPlayersReady() {
@@ -114,14 +110,14 @@ public class Room {
         if(status.isPlaying()){
             for(Player player : players){
                 if(!player.isAlive()){
-                    System.out.println("玩家" + player.getName() + "死亡，跳过发言阶段");
+                    consoleView.print("玩家" + player.getName() + "死亡，跳过发言阶段");
                     continue;
                 }
                 say(player,consoleView);
             }
         }
         else{
-            System.out.println("游戏不在进行中，不能发言");
+            consoleView.print("游戏不在进行中，不能发言");
         }
     }
     public void initVotes(Map<Player,Integer> votes){

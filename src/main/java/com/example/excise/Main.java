@@ -25,7 +25,11 @@ public class Main {
         for (int id = 1; id <= room.getMaxPlayerCount(); id++) {
             view.print("创建第" + id + "名玩家");
             Player player = playerService.createPlayer(view, id);
-            room.addPlayer(player);
+            if(room.addPlayer(player)){
+                view.print("玩家" + player.getName() + "已加入房间");
+            }else{
+                view.print("玩家" + player.getName() + "加入房间失败");
+            }
         }
         room.initVotes(votes);
         room.allPlayersReady();
