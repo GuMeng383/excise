@@ -17,7 +17,7 @@ class GameServiceTest {
         Map<Player, Integer> votes = new HashMap<>();
         Room room = new Room("测试房间", 3);
         room.setStatus(GameStatus.FINISHED);
-        GameService gameService = new GameService(new GameResultService(),view);
+        GameService gameService = new GameService(new GameResultService(view),view);
         gameService.runGame(room, votes);
         assertTrue(room.getStatus() == GameStatus.FINISHED);
     }
@@ -41,7 +41,7 @@ class GameServiceTest {
 
         Scanner input = new Scanner("我不是卧底\n我也不是卧底\n我是卧底\n3\n3\n1");
         ConsoleView view = new ScannerConsoleView(input, System.out);
-        GameService gameService = new GameService(new GameResultService(),view);
+        GameService gameService = new GameService(new GameResultService(view),view);
         gameService.runGame(room,votes);
 
         assertEquals(GameStatus.FINISHED, room.getStatus());
@@ -51,9 +51,9 @@ class GameServiceTest {
 
     @Test
     void shouldThrowNullPointerException() {
-        GameResultHandler handler = new GameResultService();
         Scanner input = new Scanner(" ");
         ConsoleView view = new ScannerConsoleView(input, System.out);
+        GameResultHandler handler = new GameResultService(view);
         assertThrows(NullPointerException.class,
                 () -> new GameService(null,view));
         assertThrows(NullPointerException.class,

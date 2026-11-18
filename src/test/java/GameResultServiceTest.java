@@ -40,7 +40,7 @@ class GameResultServiceTest {
         PrintStream out = System.out;
         view = new ScannerConsoleView(input,out);
 
-        GameService gameService = new GameService(new GameResultService(),view);
+        GameService gameService = new GameService(new GameResultService(view),view);
         gameService.runGame(room,votes);
 
         assertTrue(room.getStatus() == GameStatus.FINISHED);
@@ -55,7 +55,7 @@ class GameResultServiceTest {
         view = new ScannerConsoleView(input,out);
 
 
-        GameService gameService = new GameService(new GameResultService(),view);
+        GameService gameService = new GameService(new GameResultService(view),view);
         gameService.runGame(room, votes);
 
         assertTrue(room.getStatus() == GameStatus.FINISHED);
@@ -77,12 +77,14 @@ class GameResultServiceTest {
         room2.addPlayer(p4);
 
         Map<Player,Integer> votes2 = new HashMap<>();
+        Scanner input = new Scanner("");
+        ConsoleView view = new ScannerConsoleView(input,System.out);
 
         room2.initVotes(votes2);
         room2.allPlayersReady();
         room2.startGame();
         p4.eliminate();
-        GameResultService gameResultService = new GameResultService();
+        GameResultService gameResultService = new GameResultService(view);
         gameResultService.processResult(room2,p4);
 
         assertTrue(room2.getStatus() == GameStatus.PLAYING);

@@ -58,4 +58,13 @@ class RoomServiceTest {
         assertThrows(NoSuchElementException.class,
                 () ->  roomService.createRoom(view));
     }
+
+    @Test
+    void misInputShouldRecreateRoom(){
+        Scanner input = new Scanner("测试房\nabc\n3");
+        ConsoleView view = new ScannerConsoleView(input,System.out);
+        RoomService roomService = new RoomService();
+        Room room = roomService.createRoom(view);
+        assertEquals(3,room.getMaxPlayerCount());
+    }
 }

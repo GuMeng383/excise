@@ -36,7 +36,7 @@ public class Main {
             return;
         }
 
-        GameService gameService = new GameService(new GameResultService(),view);
+        GameService gameService = new GameService(new GameResultService(view),view);
         gameService.runGame(room,votes);
 
         input.close();
