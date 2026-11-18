@@ -1,21 +1,10 @@
 import com.example.excise.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.PrintStream;
-import java.util.Scanner;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RoomStartTest {
-    private ConsoleView view;
-    @BeforeEach
-    void setUp(){
-        Scanner input = new Scanner("");
-        PrintStream out = System.out;
-        view = new ScannerConsoleView(input,out);
-    }
 
     @Test
     void shouldStartWhenAllRulesAreSatisfied() {
@@ -27,7 +16,8 @@ class RoomStartTest {
         room.addPlayer(player(4, Role.UNDERCOVER));
         room.allPlayersReady();
 
-        assertTrue(room.canStartGame());
+        assertEquals(GameStartResult.START,room.startGame());
+        assertEquals(GameStatus.PLAYING,room.getStatus());
     }
 
     @Test
@@ -38,7 +28,8 @@ class RoomStartTest {
         room.addPlayer(player(2, Role.CIVILIAN));
         room.allPlayersReady();
 
-        assertFalse(room.canStartGame());
+        assertEquals(GameStartResult.UNDERCOVER,room.startGame());
+        assertEquals(GameStatus.WAITING,room.getStatus());
     }
 
     @Test
@@ -49,7 +40,8 @@ class RoomStartTest {
         room.addPlayer(player(2, Role.CIVILIAN));
         room.addPlayer(player(3, Role.UNDERCOVER));
 
-        assertFalse(room.canStartGame());
+        assertEquals(GameStartResult.PREPARE,room.startGame());
+        assertEquals(GameStatus.WAITING,room.getStatus());
     }
 
     @Test
@@ -60,7 +52,8 @@ class RoomStartTest {
         room.addPlayer(player(2, Role.UNDERCOVER));
         room.allPlayersReady();
 
-        assertFalse(room.canStartGame());
+        assertEquals(GameStartResult.MOUNTNOMATCH,room.startGame());
+        assertEquals(GameStatus.WAITING,room.getStatus());
     }
 
     private Player player(int id, Role role) {

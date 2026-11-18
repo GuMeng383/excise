@@ -66,40 +66,27 @@ public class Room {
             player.ready();
         }
     }
-    public boolean canStartGame() {
+    public GameStartResult startGame() {
         if(!status.isWaiting()){
-            System.out.println("当前不是准备状态，无法开始游戏");
-            return false;
+            return GameStartResult.ROOM;
         }
         if(players.size()<2){
-            System.out.println("人数不足，无法开始");
-            return false;
+            return GameStartResult.PEOPLE;
         }
         if(countAliveUndercover() == 0){
-            System.out.println("卧底人数为0,无法开始");
-            return false;
+            return GameStartResult.UNDERCOVER;
         }
         if(countAliveCivilian()<=countAliveUndercover()){
-            System.out.println("卧底和平民人数不匹配,无法开始");
-            return false;
+            return GameStartResult.MOUNTNOMATCH;
         }
         boolean allReady = players
                 .stream()
                 .allMatch(p->p.isReady());
         if(!allReady){
-            System.out.println("还有玩家没有准备");
-            return false;
+            return GameStartResult.PREPARE;
         }
-        return true;
-    }
-    public boolean startGame(){
-        boolean result = canStartGame();
-        if(result){
-            status = GameStatus.PLAYING;
-            System.out.println("游戏开始");
-            return true;
-        }
-        return false;
+        status = GameStatus.PLAYING;
+        return GameStartResult.START;
     }
     public String say(Player player ,ConsoleView consoleView){
         consoleView.print("玩家" + player.getName() + "正在发言:");

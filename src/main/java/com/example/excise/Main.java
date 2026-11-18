@@ -33,9 +33,12 @@ public class Main {
         }
         room.initVotes(votes);
         room.allPlayersReady();
-        boolean start = room.startGame();
-        if(!start){
-            view.print("不能开始游戏");
+        GameStartResult result = room.startGame();
+        if(result == GameStartResult.START){
+            view.print("开始游戏");
+        }
+        else{
+            view.print(result.getDescription() + "不能开始游戏");
             input.close();
             return;
         }
