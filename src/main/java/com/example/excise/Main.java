@@ -12,7 +12,7 @@ public class Main {
 
         Map<Player,Integer> votes = new HashMap<>();
         RoomService roomService = new RoomService();
-        Room room = roomService.createRoom(input);
+        Room room = roomService.createRoom(view);
         String statusText = switch(room.getStatus()){
             case WAITING -> "房间准备中";
             case PLAYING -> "游戏进行中";
@@ -24,7 +24,7 @@ public class Main {
         PlayerService playerService = new PlayerService();
         for (int id = 1; id <= room.getMaxPlayerCount(); id++) {
             view.print("创建第" + id + "名玩家");
-            Player player = playerService.createPlayer(input, id);
+            Player player = playerService.createPlayer(view, id);
             room.addPlayer(player);
         }
         room.initVotes(votes);

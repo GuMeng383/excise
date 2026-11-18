@@ -1,5 +1,7 @@
+import com.example.excise.ConsoleView;
 import com.example.excise.Room;
 import com.example.excise.RoomService;
+import com.example.excise.ScannerConsoleView;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
@@ -13,7 +15,8 @@ class RoomServiceTest {
     void rightCreatRoom(){
         Scanner input = new Scanner("测试房\n3");
         RoomService roomService = new RoomService();
-        Room room = roomService.createRoom(input);
+        ConsoleView view = new ScannerConsoleView(input,System.out);
+        Room room = roomService.createRoom(view);
         assertEquals("测试房",room.getRoomName());
         assertEquals(3,room.getMaxPlayerCount());
     }
@@ -22,7 +25,8 @@ class RoomServiceTest {
     void blankNameShouldReinput(){
         Scanner input = new Scanner(" \n测试房\n3");
         RoomService roomService = new RoomService();
-        Room room = roomService.createRoom(input);
+        ConsoleView view = new ScannerConsoleView(input,System.out);
+        Room room = roomService.createRoom(view);
         assertEquals("测试房",room.getRoomName());
         assertEquals(3,room.getMaxPlayerCount());
     }
@@ -31,7 +35,8 @@ class RoomServiceTest {
     void misPlayerCountShouldReinput(){
         Scanner input = new Scanner("测试房\n2\n3");
         RoomService roomService = new RoomService();
-        Room room = roomService.createRoom(input);
+        ConsoleView view = new ScannerConsoleView(input,System.out);
+        Room room = roomService.createRoom(view);
         assertEquals("测试房",room.getRoomName());
         assertEquals(3,room.getMaxPlayerCount());
     }
@@ -39,16 +44,18 @@ class RoomServiceTest {
     @Test
     void inputIsEmptyCreatRoomShouldException(){
         Scanner input = new Scanner("");
+        ConsoleView view = new ScannerConsoleView(input,System.out);
         RoomService roomService = new RoomService();
         assertThrows(NoSuchElementException.class,
-                () -> roomService.createRoom(input));
+                () -> roomService.createRoom(view));
     }
 
     @Test
     void noPlayerCount(){
         Scanner input = new Scanner("测试房间");
+        ConsoleView view = new ScannerConsoleView(input,System.out);
         RoomService roomService = new RoomService();
         assertThrows(NoSuchElementException.class,
-                () ->  roomService.createRoom(input));
+                () ->  roomService.createRoom(view));
     }
 }

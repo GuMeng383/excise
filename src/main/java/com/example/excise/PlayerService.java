@@ -1,18 +1,16 @@
 package com.example.excise;
 
-import java.util.Scanner;
-
 public class PlayerService {
-    public Player createPlayer(Scanner input, int ID){
-        System.out.print("请输入玩家姓名:");
-        String name = input.nextLine();
+    public Player createPlayer(ConsoleView consoleView, int ID){
+        consoleView.print("请输入你的姓名：");
+        String name = consoleView.readLine();
         Role role;
         while(true){
-            System.out.println("请选择你的角色：");
-            System.out.println("1.平民");
-            System.out.println("2.卧底");
+            consoleView.print("请选择你的角色：");
+            consoleView.print("1.平民");
+            consoleView.print("2.卧底");
             try{
-                int choice = Integer.parseInt(input.nextLine());
+                int choice = consoleView.readInt();
                 if(choice == 1){
                     role = Role.CIVILIAN;
                     break;
@@ -22,10 +20,10 @@ public class PlayerService {
                     break;
                 }
                 else{
-                    System.out.println("请输入1或2");
+                    consoleView.print("请输入1或2");
                 }
             }catch(NumberFormatException e){
-                System.out.println("请输入整数");
+                consoleView.print("请输入整数");
             }
         }
         int score = 100;
