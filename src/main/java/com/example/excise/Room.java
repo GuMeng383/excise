@@ -144,7 +144,7 @@ public class Room {
     }
     public void addVote(Player voter, ConsoleView consoleView,Map<Player,Integer> votes){
         Player target = realVoteChoice(voter,consoleView);
-        voter.voteFor(target);
+        consoleView.print(voter.getName() + "投票给了" + target.getName());
         int Vote = votes.getOrDefault(target,0);
         votes.put(target,Vote + 1);
     }
@@ -186,7 +186,10 @@ public class Room {
                 maxVotePlayer = result.get(0);
                 consoleView.print("票数最多的人是" + maxVotePlayer.getName());
                 consoleView.print("票数为" +votes.get(maxVotePlayer));
-                maxVotePlayer.eliminate();
+                if(maxVotePlayer.eliminate()){
+                    consoleView.print("玩家" + maxVotePlayer.getName() + "被淘汰");
+                    consoleView.print("玩家" + maxVotePlayer.getName() + "剩余分数:" + maxVotePlayer.getScore());
+                }
                 break;
             }
             else if(result.size()==0){

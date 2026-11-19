@@ -38,13 +38,8 @@ public abstract class Player {
         return this.ID;
     }
 
-    public void voteFor(Player target){
-        System.out.println(playerName + "投票给了" + target.getName());
-    }
-
     public int addScore(int value){
         if(value <=0){
-            System.out.println("分数必须是正数");
             return score;
         }
         score += value;
@@ -52,21 +47,18 @@ public abstract class Player {
     }
     public int deductScore(int value){
         if(!canDeductScore(value)){
-            System.out.println("分数不够");
             return score;
         }
         score -= value;
         return score;
     }
-    public void eliminate(){
+    public boolean eliminate(){
         if(alive == false){
-            System.out.println("玩家" + playerName + "已被淘汰");
-            return;
+            return false;
         }
-        System.out.println("玩家" + playerName+ "被淘汰");
         alive = false;
         deductScore(20);
-        System.out.println("剩余分数为：" + score);
+        return true;
     }
     public boolean canDeductScore(int value){
         if(value <=0 || value > score){

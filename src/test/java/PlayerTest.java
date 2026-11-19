@@ -26,9 +26,39 @@ class PlayerTest{
     }
 
     @Test
+    void addScoreShouldBeRightMath(){
+        Player player = new NormalPlayer("小明",Role.CIVILIAN,100,1);
+        int result = player.addScore(-20);
+        assertEquals(100,result);
+        assertEquals(100,player.getScore());
+    }
+    @Test
+    void shouldKeepScoreWhenDeductingNonPositiveValue(){
+        Player player = new NormalPlayer("小明",Role.CIVILIAN,100,1);
+        int result = player.deductScore(-20);
+        assertEquals(100,result);
+        assertEquals(100,player.getScore());
+    }
+
+    @Test
+    void shouldKeepScoreWhenDeductingZeroValue(){
+        Player player = new NormalPlayer("小明",Role.CIVILIAN,100,1);
+        int result = player.deductScore(0);
+        assertEquals(100,result);
+        assertEquals(100,player.getScore());
+    }
+    @Test
+    void shouldKeepScoreWhenAddingZeroValue(){
+        Player player = new NormalPlayer("小明",Role.CIVILIAN,100,1);
+        int result = player.addScore(0);
+        assertEquals(100,result);
+        assertEquals(100,player.getScore());
+    }
+
+    @Test
     void shouldEliminatePlayer(){
         Player player = new NormalPlayer("小明",Role.CIVILIAN,100,1);
-        player.eliminate();
+        assertTrue(player.eliminate());
         assertFalse(player.isAlive());
         assertEquals(80,player.getScore());
     }
@@ -38,5 +68,14 @@ class PlayerTest{
         Player player = new NormalPlayer("小明",Role.CIVILIAN,100,1);
         player.ready();
         assertTrue(player.isReady());
+    }
+
+    @Test
+    void alreadyEliminatePlayerShouldStillDeath(){
+        Player player = new NormalPlayer("小明",Role.CIVILIAN,100,1);
+        assertTrue(player.eliminate());
+        assertFalse(player.eliminate());
+        assertFalse(player.isAlive());
+        assertEquals(80,player.getScore());
     }
 }
